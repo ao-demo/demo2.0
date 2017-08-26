@@ -1,4 +1,4 @@
--dataset=<http URL for dataset> 
+-dataset="https://data.cityofnewyork.us/api/views/h9gi-nx95/rows.csv" 
 -logstashconf=<http URL for > 
 -elasticconf=<http URL for .JSON file > 
 -kibanaconf=<http URL for Kibana JSON file> 
