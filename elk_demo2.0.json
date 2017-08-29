@@ -19,7 +19,7 @@
       },
       {
       "filepersona" : "logstashconfig",
-      "sourceurl": "https://raw.githubusercontent.com/rajkrishnamurthy/examples/master/Exploring%20Public%20Datasets/nyc_traffic_accidents/nyc_collision_logstash.conf",
+      "sourceurl": "https://raw.githubusercontent.com/ao-demo/demo2.0/master/nyc_traffic/logstash.conf",
       "description": "Logstash Configuration File",
       "filetype": "conf",
       "savefileas": "logstash.conf",
@@ -66,7 +66,7 @@
         "order" : 2,
         "description" : "Updating hostname under elasticsearch{}",
         "action" : "find | insert | replace",
-        "outputfile" : "",
+        "outputfile" : "elasticserverconfigonly",
         "findpattern": "hosts.*\\[.*\\]",
         "replacevalue": "hosts => [\"elasticserver01:9200\"] \n",
         "filenames": [
@@ -78,7 +78,7 @@
         "order" : 3,
         "description" : "Updating the Index => section under elasticsearch{}",
         "action" : "find | insert | replace",
-        "outputfile" : "",
+        "outputfile" : "elasticserverconfigonly",
         "findpattern": "index.*",
         "replacevalue": "index => \"demo_index\" \n",
         "filenames": [
@@ -90,7 +90,7 @@
         "order" : 4,
         "description" : "Updating the template => section under elasticsearch{}. This points to the template.json file",
         "action" : "find | insert | replace",
-        "outputfile" : "",
+        "outputfile" : "elasticserverconfigonly",
         "findpattern": "template[^_].*",
         "replacevalue": "template => \"./template.json\" \n",
         "filenames": [
@@ -103,7 +103,7 @@
         "order" : 5,
         "description" : "Updating the template_name => section under elasticsearch{}",
         "action" : "find | insert | replace",
-        "outputfile" : "",
+        "outputfile" : "elasticserverconfigonly",
         "findpattern": "template_name.*",
         "replacevalue": "template_name => \"demo_template\" \n",
         "filenames": [
