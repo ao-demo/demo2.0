@@ -1,7 +1,9 @@
 {
-  "elkdemo": {
     "name": "nyc traffic",
-    "dataset": {
+    "filesets" : 
+    [
+      {
+      "filepersona" : "dataset",
       "sourceurl": "https://data.cityofnewyork.us/api/views/h9gi-nx95/rows.csv",
       "description": "Source Dataset File",
       "filetype": "csv",
@@ -9,12 +11,14 @@
       "action": {
         "download": "yes",
         "update": "no",
+        "extract" : "no",
         "subset": "yes",
         "subsetnumber": "10%",
         "otherinfo": ""
-      }
-    },
-    "logstashconfig": {
+        }
+      },
+      {
+      "filepersona" : "logstashconfig",
       "sourceurl": "https://raw.githubusercontent.com/rajkrishnamurthy/examples/master/Exploring%20Public%20Datasets/nyc_traffic_accidents/nyc_collision_logstash.conf",
       "description": "Logstash Configuration File",
       "filetype": "conf",
@@ -22,12 +26,14 @@
       "action": {
         "download": "yes",
         "update": "yes",
+        "extract" : "no",
         "subset": "no",
         "subsetnumber": "",
         "otherinfo": ""
       }
-    },
-    "elasticsearcmapping": {
+      },
+      {
+      "filepersona" : "elasticmapping",
       "sourceurl": "https://raw.githubusercontent.com/elastic/examples/master/Exploring%20Public%20Datasets/nyc_traffic_accidents/nyc_collision_template.json",
       "description": "Logstash Configuration File",
       "filetype": "json",
@@ -35,11 +41,13 @@
       "action": {
         "download": "yes",
         "update": "yes",
+        "extract" : "no",
         "subset": "no",
         "subsetnumber": "",
         "otherinfo": ""
       }
-    },
+      }
+      ],
     "searchandupdate": [
       {
         "name" : "getelasticsearchserverconfig",
@@ -117,4 +125,3 @@
       
     ]
   }
-}
