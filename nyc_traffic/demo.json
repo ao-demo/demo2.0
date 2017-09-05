@@ -1,0 +1,51 @@
+{
+    "name": "nyc traffic",
+    "filesets" : 
+    [
+      {
+      "filepersona" : "dataset",
+      "sourceurl": "https://data.cityofnewyork.us/api/views/h9gi-nx95/rows.csv",
+      "description": "Source Dataset File",
+      "filetype": "csv",
+      "savefileas": "dataset.csv",
+      "action": {
+        "download": "yes",
+        "update": "no",
+        "extract" : "no",
+        "subset": "yes",
+        "subsetnumber": "10%",
+        "otherinfo": ""
+        }
+      },
+      {
+      "filepersona" : "logstashconfig",
+      "sourceurl": "https://raw.githubusercontent.com/ao-demo/demo2.0/master/nyc_traffic/logstash.conf",
+      "description": "Logstash Configuration File",
+      "filetype": "conf",
+      "savefileas": "logstash.conf",
+      "action": {
+        "download": "yes",
+        "update": "no",
+        "extract" : "no",
+        "subset": "no",
+        "subsetnumber": "",
+        "otherinfo": ""
+      }
+      },
+      {
+      "filepersona" : "elasticmapping",
+      "sourceurl": "https://raw.githubusercontent.com/elastic/examples/master/Exploring%20Public%20Datasets/nyc_traffic_accidents/nyc_collision_template.json",
+      "description": "Logstash Configuration File",
+      "filetype": "json",
+      "savefileas": "nyc_collision_template.json",
+      "action": {
+        "download": "yes",
+        "update": "no",
+        "extract" : "no",
+        "subset": "no",
+        "subsetnumber": "",
+        "otherinfo": ""
+      }
+      }
+      ]
+  }
