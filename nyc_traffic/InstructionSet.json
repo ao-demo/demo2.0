@@ -19,7 +19,7 @@
       },
       {
       "filepersona" : "logstashconfig",
-      "sourceurl": "https://raw.githubusercontent.com/ao-demo/demo2.0/master/nyc_traffic/logstash.conf",
+      "sourceurl": "https://raw.githubusercontent.com/ao-demo/demo2.0/master/nyc_traffic/nyc_collision_logstash.conf",
       "description": "Logstash Configuration File",
       "filetype": "conf",
       "savefileas": "logstash.conf",
@@ -34,7 +34,7 @@
       },
       {
       "filepersona" : "elasticmapping",
-      "sourceurl": "https://raw.githubusercontent.com/elastic/examples/master/Exploring%20Public%20Datasets/nyc_traffic_accidents/nyc_collision_template.json",
+      "sourceurl": "https://raw.githubusercontent.com/ao-demo/demo2.0/master/nyc_traffic/nyc_collision_template.json",
       "description": "Logstash Configuration File",
       "filetype": "json",
       "savefileas": "nyc_collision_template.json",
