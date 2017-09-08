@@ -1,0 +1,7 @@
+http.host: "0.0.0.0"
+xpack.monitoring.elasticsearch.url: http://elasticsearch01:9200
+queue.type: persisted
+dead_letter_queue.enable: true
+path.data: /var/lib/logstash
+path.config: /etc/logstash/conf.d
+path.logs: /var/log/logstash
