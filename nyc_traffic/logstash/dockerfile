@@ -1,0 +1,61 @@
+# Describe the purpose of the Dockerfile
+# ----------------------------------------------------
+#  This dockerfile instance takes a debian image and install a logstash application
+# ----------------------------------------------------
+
+# Credits:
+# ----------------------------------------------------
+#  https://linuxconfig.org/how-to-install-logstash-on-debian-linux
+#
+# ----------------------------------------------------
+
+
+# Source Image
+FROM debian
+LABEL author="Raj Krishnamurthy" \
+        version="1.0" \
+        apptype="elk" \
+        company="apporbit" \
+        website="www.apporbit.io"
+
+# Author : Raj Krishnamurthy
+# Version : 1.0
+# Describe the logical steps required to build/compile the Docker Image from the Base Image
+# ----------------------------------------------------
+#  Arguments to Dockerfile:
+# elasticserver hostname/port. Not rele
+# ----------------------------------------------------
+ARG elasticserver
+
+ENV WORKPATH=${HOME}/elk \
+        LOGSTASH_PORT_1=9200 \
+        LOGSTASH_HOME="/usr/share/logstash" \
+        PATH=${PATH}:${LOGSTASH_HOME}/bin \
+        WORKPATH="/usr/local/elk"
+
+RUN mkdir -p ${WORKPATH}
+WORKDIR ${WORKPATH}
+
+# Add the ELK Runtime to generate files. Configuration is done through elk_demo2.0.json
+ADD elkinitializer elkinitializer
+#ADD elk_demo2.0.json elk_demo2.0.json
+RUN chmod +x elkinitializer
+
+# Install logstash
+RUN apt-get update && apt-get install openjdk-8-jdk-headless wget -y
+ADD logstash-5.2.0.deb logstash.deb
+RUN dpkg -i logstash.deb
+
+#
+ADD dummylogfile dummylogfile
+RUN mv /etc/logstash/logstash.yml /etc/logstash/logstash.yml.orig
+ADD logstash.yml /etc/logstash/logstash.yml
+ADD entrypoint.sh entrypoint.sh
+RUN chmod +x entrypoint.sh
+
+# entrypoint.sh should do the following
+#       a. run elkinitializer (parameters fed through elk_demo2.0.json
+#       b. run the output dataset | through logstash pointing logstash configuration file
+#       c. This certainly requires this instance to link to elasticsearch01
+#ENTRYPOINT ["./entrypoint.sh","-j=https://raw.githubusercontent.com/ao-demo/demo2.0/master/nyc_traffic/InstructionSet.json"]
+ENTRYPOINT ["./entrypoint.sh"]

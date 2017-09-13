@@ -1,0 +1,64 @@
+# Describe the purpose of the Dockerfile
+# ----------------------------------------------------
+#  This dockerfile instance runs on the Logstash container  
+# ----------------------------------------------------
+
+# Credits: 
+# ----------------------------------------------------
+#  https://github.com/rajkrishnamurthy/examples/tree/master/Exploring%20Public%20Datasets/nyc_traffic_accidents
+#
+# ----------------------------------------------------
+
+
+# Source Image
+FROM logstash:latest
+LABEL author="Raj Krishnamurthy" \
+	version="1.0" \
+	apptype="elk" \
+	company="apporbit" \
+	website="www.apporbit.io"
+
+# Author : Raj Krishnamurthy
+# Version : 1.0
+# Describe the logical steps required to build/compile the Docker Image from the Base Image
+# ----------------------------------------------------
+#  Arguments to Dockerfile: 
+# These arguments are passed to the go runtime
+#               a. dataseturl=<provide the url for dataset>. Default value pointing to nyc_traffic_accidents
+#               b. logstashconf=<provide the url for logstash configuration file>. Default value pointing to nyc_traffic_accidents
+#               c. elasticconf=<provide the url for elastic search template file>. Default value pointing to nyc_traffic_accidents
+#               d. elasticserver=<provide the http://hostname:port for elastic server>. Default value pointing to elasticserver01:9200
+# Dependenices:
+#             elkinitializer.exe, golang
+# Step1: Change Working Directory
+# Step2: Copy elkinitializer executable
+# Step5: Execute elkinitializer.exe with the passed commands. Look for outputs: dataset.csv, logstash.conf, template.json
+# ----------------------------------------------------
+
+ARG dataseturl
+ARG logstashconf
+ARG elasticconf
+ARG elasticserver
+
+ENV DATASET_URL=${dataseturl} \
+	LOGSTASH_CONFIG_URL=${logstashconf} \
+	ELASTIC_CONFIG_URL=${elasticconf} \
+	ELASTIC_SERVER=${elasticserver}  \
+	WORKPATH=${HOME}/elk \
+	LOGSTASH_PORT_1=9200 \
+	LOGSTASH_HOME="/usr/share/logstash"
+
+RUN mkdir -p ${WORKPATH}
+WORKDIR ${WORKPATH}
+ADD elkinitializer.exe elkinitializer.exe
+ADD dummylogfile dummylogfile
+ADD entrypoint.sh entrypoint.sh
+RUN chmod +x elkinitializer.exe && chmod +x entrypoint.sh
+
+# RUN elkinitializer -dataseturl=${DATASET_URL) -logstashconf=${LOGSTASH_CONFIG_URL} \
+# -elasticconf=${ELASTIC_CONFIG_URL} -elasticserver=${ELASTIC_SERVER}
+RUN ./elkinitializer.exe
+#EXPOSE ${LOGSTASH_PORT_1}
+
+ENTRYPOINT ["./entrypoint.sh"]
+
