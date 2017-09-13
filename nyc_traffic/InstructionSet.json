@@ -12,8 +12,8 @@
         "download": "yes",
         "update": "no",
         "extract" : "no",
-        "subset": "yes",
-        "subsetnumber": "10%",
+        "subset": "no",
+        "subsetnumber": "",
         "otherinfo": ""
         }
       },
