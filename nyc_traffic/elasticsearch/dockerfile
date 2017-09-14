@@ -1,0 +1,81 @@
+# Describe the purpose of the Dockerfile
+# ----------------------------------------------------
+#  This dockerfile instance takes a debian image and install a elasticsearch application
+# ----------------------------------------------------
+# Credits:
+# ----------------------------------------------------
+#  https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html
+#
+# ----------------------------------------------------
+# Source Image
+FROM debian
+LABEL author="Raj Krishnamurthy" \
+        version="1.0" \
+        apptype="elk" \
+        company="apporbit" \
+        website="www.apporbit.io"
+
+# Author : Raj Krishnamurthy
+# Version : 1.0
+# Describe the logical steps required to build/compile the Docker Image from the Base Image
+# ----------------------------------------------------
+#  Arguments to Dockerfile:
+#
+# ----------------------------------------------------
+#ARG elasticserver
+
+ENV ELASTICSEARCH_PORT_1=9200 \
+        ELASTICSEARCH_PORT_2=9300 \
+        ELASTICSEARCH_HOME="/usr/share/elasticsearch" \
+        ELASTICSEARCH_OLD_CONFIG="/etc/elasticsearch" \
+        ELASTICSEARCH_CONFIG="/usr/share/elasticsearch/config" \
+        ELASTICSEARCH_LOG="/var/log/elasticsearch" \
+        PATH=${PATH}:"usr/share/elasticsearch/bin" \
+        WORKPATH="/usr/local/elk"
+
+# Elasticsearch cannot be run as root. So need to do housekeeping stuff as root and then switch to another user
+#Modified
+USER root 
+RUN useradd -ms /bin/bash elasticsearch
+
+#Modified
+RUN mkdir -p ${WORKPATH} && \
+	mkdir -p ${ELASTICSEARCH_CONFIG}
+	
+WORKDIR ${WORKPATH}
+
+# Install elasticsearch
+RUN apt-get update && \
+        apt-get install wget curl openjdk-8-jdk-headless procps sudo -y && \
+        wget  --no-check-certificate https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.0.deb && \
+        mv elasticsearch-5.6.0.deb elasticsearch.deb && \
+        dpkg -i elasticsearch.deb && \
+        update-rc.d elasticsearch defaults 95 10 && \
+        cp -r ${ELASTICSEARCH_OLD_CONFIG}/* ${ELASTICSEARCH_CONFIG}/ && \
+        mv ${ELASTICSEARCH_CONFIG}/elasticsearch.yml ${ELASTICSEARCH_CONFIG}/elasticsearch.yml.orig  && \
+        mv ${ELASTICSEARCH_CONFIG}/log4j2.properties ${ELASTICSEARCH_CONFIG}/log4j2.properties.orig
+
+#Modified
+#RUN echo "elasticsearch ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+ADD elasticsearch.yml ${ELASTICSEARCH_CONFIG}/elasticsearch.yml
+ADD log4j2.properties ${ELASTICSEARCH_CONFIG}/log4j2.properties
+ADD start-elasticsearch.sh start-elasticsearch.sh
+#ADD dummylogfile dummylogfile
+
+#Modified
+ADD es-docker.sh ${ELASTICSEARCH_HOME}/bin/es-docker.sh
+
+RUN usermod -aG sudo elasticsearch && \
+	chmod +x start-elasticsearch.sh && \
+	chmod +x ${ELASTICSEARCH_HOME}/bin/es-docker.sh && \
+	chown -R elasticsearch:elasticsearch ${ELASTICSEARCH_HOME} && \
+	chown -R elasticsearch:elasticsearch ${ELASTICSEARCH_LOG} && \
+	chown elasticsearch:elasticsearch /etc/default/elasticsearch
+
+# Elasticsearch cannot be run as root. So need to do housekeeping stuff as root and then switch to elasticsearch as user
+#This is done inside start-elasticsearch.sh
+
+ENTRYPOINT ["/bin/bash"]
+CMD ["/usr/local/elk/start-elasticsearch.sh"]
+

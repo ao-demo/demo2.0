@@ -1,0 +1,31 @@
+#!/bin/sh
+set -e
+
+echo $TERM
+
+JSONFILE="none"
+LOGSTASHFILE="none"
+
+for i in "$@"
+do
+	case $i in
+		-instr=*|--instruction-set=*)
+			JSONFILE="${i#*=}" 
+			shift
+			;;
+		-conf=*|--logstash-conf=*)
+			LOGSTASHFILE="${i#*=}"
+			shift
+			;;
+
+	esac
+done
+echo "JSON FILE = ${JSONFILE}"
+echo "LOGSTASHFILE = ${LOGSTASHFILE}"
+
+
+
+
+
+#echo "output of parameters: 1" ${1}
+#echo "output of @" ${@}

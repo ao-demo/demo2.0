@@ -1,0 +1,2 @@
+# This is dummy elasticsearch.yml file
+# This should be replaced by the start-elasticsearch.sh script running inside the container
