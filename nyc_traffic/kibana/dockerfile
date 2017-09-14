@@ -1,0 +1,16 @@
+FROM docker.elastic.co/kibana/kibana:5.5.0
+MAINTAINER AppOrbit, Inc.
+USER root
+RUN yum update -y && yum install -y openssl && yum clean all
+RUN /usr/share/kibana/bin/kibana-plugin remove x-pack
+
+
+# Create certificates and keys for ssl connections
+# RUN mkdir /cert && \
+# openssl req -x509 -newkey rsa:4096 -nodes -out /cert/cert.pem -keyout /cert/key.pem \
+# -days 3650 -subj "/C=US/ST=California/L=San Jose/O=AppOrbit/OU=/CN=localhost"
+
+COPY kibana.yml /usr/share/kibana/config/
+RUN mkdir /var/log/kibana/
+RUN chown -R kibana:kibana /usr/share/kibana/config/kibana.yml /var/log/kibana
+USER kibana

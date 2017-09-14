@@ -1,0 +1,7 @@
+server.host: "0.0.0.0"
+elasticsearch.url: http://elasticsearch:9200
+server.ssl.enabled: false
+#server.ssl.cert: /cert/cert.pem
+#server.ssl.key: /cert/key.pem
+logging.dest: /var/log/kibana/kibana.log
+#xpack.monitoring.ui.container.elasticsearch.enabled: true

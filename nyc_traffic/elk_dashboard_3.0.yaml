@@ -1,0 +1,53 @@
+---
+app_id: dashboarder
+version: '3.0'
+schemaVersion: v1
+tiers:
+- name: elasticsearch
+  type: db
+  replicas: 3
+  loadBalance: false
+  containers:
+  - name: elasticsearch
+    image: rajkrishnamurthy/debelasticsearch
+    environment:
+    - ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+    - ES_CLUSTER_NAME: ao-es-cluster
+    - ES_NUM_OF_NODES: '3'
+    ports:
+    - containerPort: 9200
+      service: internal
+    - containerPort: 9300
+      service: internal
+    volumes:
+    - containerVolume: "/var/lib/data"
+      min-size: 1G
+      volume-size: 1G
+    - containerVolume: "/var/log/elasticsearch"
+      min-size: 1G
+      volume-size: 1G
+- name: logstash
+  type: app
+  replicas: 1
+  containers:
+  - name: logstash
+    image: rajkrishnamurthy/logstash
+    ports:
+    - containerPort: 5044
+      service: external
+      url:
+      - logstash://APPORBIT_SVC:APPORBIT_PORT
+    environment:
+    - INSTR_URL: https://raw.githubusercontent.com/ao-demo/demo2.0/master/nyc_traffic/InstructionSet.json
+- name: kibana
+  type: web
+  replicas: 1
+  containers:
+  - name: kibana
+    image: apporbit-apps.apporbit.io:5000/apps/elk_1.0/kibana:latest
+    ports:
+    - containerPort: 5601
+      service: external
+      url:
+      - https://APPORBIT_SVC:APPORBIT_PORT
+networks: {}
