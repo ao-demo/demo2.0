@@ -5,7 +5,7 @@
       {
       "filepersona" : "dataset",
       "sourceurl": "https://data.cityofnewyork.us/api/views/h9gi-nx95/rows.csv",
-      "description": "Source Dataset File",
+      "description": "Source Dataset File 1",
       "filetype": "csv",
       "savefileas": "dataset.csv",
       "action": {
