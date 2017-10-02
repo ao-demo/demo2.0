@@ -6,6 +6,19 @@ echo "Present Working Directory " $(pwd)
 echo "Logstash Home Directory " ${LOGSTASH_HOME}
 echo "Instruction Set URL " ${INSTR_URL}
 
+# Added on 10/02
+# Start------------------------
+echo "Exit Flag Value " ${EXIT_FLAG}
+
+if [ -n "${EXIT_FLAG}" ];
+then
+        echo "Exit Flag is Set";
+        exit;
+else
+        echo "Exit Flag is Not Set";
+fi;
+# End------------------------
+
 JSON_FILE="https://raw.githubusercontent.com/ao-demo/demo2.0/master/nyc_traffic/InstructionSet.json"
 # ENV variable {INSTR_URL}
 
