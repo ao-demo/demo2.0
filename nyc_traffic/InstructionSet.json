@@ -1,0 +1,51 @@
+{
+    "name": "nyc traffic",
+    "filesets" : 
+    [
+      {
+      "filepersona" : "dataset",
+      "sourceurl": "https://docs.google.com/uc?export=download&id=0B9KFyj7ry6XidUdIeTFKSU9pRFE",
+      "description": "Subset Data File from Google Drive",
+      "filetype": "csv",
+      "savefileas": "dataset.csv",
+      "action": {
+        "download": "yes",
+        "update": "no",
+        "extract" : "no",
+        "subset": "no",
+        "subsetnumber": "",
+        "otherinfo": ""
+        }
+      },
+      {
+      "filepersona" : "logstashconfig",
+      "sourceurl": "https://raw.githubusercontent.com/ao-demo/demo2.0/master/nyc_traffic/nyc_collision_logstash.conf",
+      "description": "Logstash Configuration File",
+      "filetype": "conf",
+      "savefileas": "logstash.conf",
+      "action": {
+        "download": "yes",
+        "update": "no",
+        "extract" : "no",
+        "subset": "no",
+        "subsetnumber": "",
+        "otherinfo": ""
+      }
+      },
+      {
+      "filepersona" : "elasticmapping",
+      "sourceurl": "https://raw.githubusercontent.com/ao-demo/demo2.0/master/nyc_traffic/nyc_collision_template.json",
+      "description": "Logstash Configuration File",
+      "filetype": "json",
+      "savefileas": "nyc_collision_template.json",
+      "action": {
+        "download": "yes",
+        "update": "no",
+        "extract" : "no",
+        "subset": "no",
+        "subsetnumber": "",
+        "otherinfo": ""
+      }
+      }
+      ]
+  }
